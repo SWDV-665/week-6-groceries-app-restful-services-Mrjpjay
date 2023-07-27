@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+import { InputDialogServiceProvider } from '../../providers/input-dialog-service/input-dialog-service';
+import { DataServiceProvider } from '../../providers/data-service/data-service';
 
 @Component({
   selector: 'page-about',
@@ -8,66 +9,24 @@ import { AlertController } from 'ionic-angular';
 })
 export class AboutPage {
 
-  items = [
-    {
-      name: "Milk",
-      quantity: 3
-    },
-
-    {
-      name: "Water",
-      quantity: 2
-    },
-
-    {
-      name: "Sugar",
-      quantity: 1
-    },
-  ]
-
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-
+  constructor(public navCtrl: NavController,
+    public dataServiceProvider: DataServiceProvider,
+    public inputService: InputDialogServiceProvider) {
   }
 
-  removeItem(item, i){
-    this.items.splice(i,1)
+  editItem(item, index) {
+    this.inputService.showPrompt(item, index)
   }
-  
-  addItem(){
+  removeItem(i) {
+    this.dataServiceProvider.items.splice(i, 1)
+  }
+
+  addItem() {
     console.log("adding item...");
-    this.showAddItemPrompt();
+    this.inputService.showPrompt();
   }
 
-  showAddItemPrompt() {
-    const prompt = this.alertCtrl.create({
-      title: 'Login',
-      message: "Enter a name for this new album you're so keen on adding",
-      inputs: [
-        {
-          name: 'name',
-          placeholder: 'Name'
-        },
-        {
-          name: 'quantity',
-          placeholder: 'Quantity'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: item => {
-            this.items.push(item);
-          }
-        }
-      ]
-    });
-    prompt.present();
+  loadItems(){
+    return this.dataServiceProvider.getItems()
   }
-
 }

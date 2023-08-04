@@ -9,22 +9,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class DataServiceProvider {
 
-  items = [
-    {
-      name: "Milk",
-      quantity: 3
-    },
-
-    {
-      name: "Water",
-      quantity: 2
-    },
-
-    {
-      name: "Sugar",
-      quantity: 1
-    },
-  ]
+  items = []
 
   constructor() {
     console.log('Hello DataServiceProvider Provider');
@@ -40,5 +25,9 @@ export class DataServiceProvider {
 
   getItems(){
     return this.items
+  }
+
+  removeItem(index){
+    this.items.splice(index,1)
   }
 }

@@ -12,6 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { InputDialogServiceProvider } from '../providers/input-dialog-service/input-dialog-service';
 import { DataServiceProvider } from '../providers/data-service/data-service';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { DataServiceProvider } from '../providers/data-service/data-service';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     InputDialogServiceProvider,
-    DataServiceProvider
+    DataServiceProvider,
+    SocialSharing
   ]
 })
 export class AppModule {}

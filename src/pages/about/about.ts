@@ -10,17 +10,27 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 })
 export class AboutPage {
 
+  items = [];
+  errorMesage: String;
+
   constructor(public navCtrl: NavController,
     public dataServiceProvider: DataServiceProvider,
     public inputService: InputDialogServiceProvider,
     public socialSharing: SocialSharing) {
+      dataServiceProvider.dataChanged$.subscribe((dataChanged : boolean)=>{
+        this.loadItems();
+      });
+  }
+
+  ionViewDidLoad(){
+    this.loadItems();
   }
 
   editItem(item, index) {
     this.inputService.showPrompt(item, index)
   }
-  removeItem(index) {
-    this.dataServiceProvider.removeItem(index);
+  removeItem(id) {
+    this.dataServiceProvider.removeItem(id);
   }
 
   addItem() {
@@ -30,6 +40,10 @@ export class AboutPage {
 
   loadItems(){
     return this.dataServiceProvider.getItems()
+    .subscribe(
+      items => this.items = items,
+      error => this.errorMesage = <any>error
+    );
   }
 
   shareItem(item, index) {
